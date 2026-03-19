@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Website Audit - Check Your Score in 30 Seconds | Nightwork</title>
+    <meta name="description" content="Free instant website audit. Check your SSL, performance, security headers, and SEO score in 30 seconds. No signup required.">
+    <meta property="og:title" content="Free Website Audit - What's Your Score?">
+    <meta property="og:description" content="Check your website's SSL, performance, security, and SEO in 30 seconds. Free, instant, no signup.">
+    <meta property="og:type" content="website">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        night: { 900: '#1a1a2e', 950: '#0d0d17' },
+                        accent: { 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .grade-circle { width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 64px; font-weight: 800; }
+        @keyframes scan { 0% { width: 0%; } 100% { width: 100%; } }
+        .scanning { animation: scan 3s ease-out; }
+        .check-enter { animation: fadeIn 0.3s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-night-950 text-white min-h-screen">
+
+    <div class="max-w-3xl mx-auto px-6 py-12">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <a href="/" class="text-sm text-gray-500 hover:text-gray-300 mb-4 inline-block">&larr; Nightwork Design</a>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                How does your website <span class="text-accent-400">really</span> score?
+            </h1>
+            <p class="text-gray-400 text-lg">Free audit. 30 seconds. No signup. No email required.</p>
+        </div>
+
+        <!-- Input -->
+        <div id="input-section" class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <div class="flex gap-3">
+                <input type="text" id="url-input" placeholder="Enter your website URL (e.g. yoursite.com)"
+                    class="flex-1 bg-black/30 border border-gray-700 rounded-xl px-5 py-4 text-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500"
+                    onkeydown="if(event.key==='Enter')runAudit()">
+                <button onclick="runAudit()" id="audit-btn"
+                    class="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors whitespace-nowrap">
+                    Audit Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="hidden bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <p class="text-gray-300 mb-4 font-medium">Scanning your website...</p>
+            <div class="w-full bg-gray-800 rounded-full h-2 mb-3">
+                <div class="bg-accent-500 h-2 rounded-full scanning"></div>
+            </div>
+            <div id="scan-status" class="text-gray-500 text-sm">Checking SSL...</div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden">
+            <!-- Score -->
+            <div class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-6 text-center">
+                <div id="grade-circle" class="grade-circle mx-auto mb-4"></div>
+                <div id="score-text" class="text-2xl font-bold mb-1"></div>
+                <div id="domain-text" class="text-gray-500"></div>
+            </div>
+
+            <!-- Sections -->
+            <div id="sections-container"></div>
+
+            <!-- Recommendations -->
+            <div id="recs-container" class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-6 hidden">
+                <h2 class="text-xl font-bold mb-4">Recommended Fixes</h2>
+                <div id="recs-list"></div>
+            </div>
+
+            <!-- CTA -->
+            <div class="bg-gradient-to-r from-accent-600/20 to-blue-600/20 rounded-2xl p-8 border border-accent-500/30 text-center mb-6">
+                <h2 class="text-2xl font-bold mb-2">Want the full report?</h2>
+                <p class="text-gray-400 mb-4">Get a detailed PDF with AI visibility check, competitor comparison, and step-by-step implementation guide.</p>
+                <a href="https://buy.stripe.com/00w5kE7Ek2GJ6OedQDgfu0f" class="inline-block bg-accent-500 hover:bg-accent-600 text-white px-8 py-3 rounded-xl font-semibold transition-colors">Full Report - £47</a>
+            </div>
+
+            <!-- Share -->
+            <div class="text-center mb-8">
+                <p class="text-gray-500 text-sm mb-2">Share your score</p>
+                <button onclick="shareResult()" class="text-accent-400 hover:text-accent-300 text-sm underline">Copy link to results</button>
+            </div>
+
+            <!-- Audit another -->
+            <div class="text-center">
+                <button onclick="resetAudit()" class="text-gray-500 hover:text-gray-300 text-sm">Audit another site &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-16 text-gray-600 text-xs">
+            <p>Nightwork Audit - Free automated website analysis</p>
+            <p class="mt-1"><a href="/" class="hover:text-gray-400">nightwork-site.pages.dev</a></p>
+        </div>
+    </div>
+
+    <script>
+    let lastResult = null;
+
+    async function runAudit() {
+        const urlInput = document.getElementById('url-input');
+        let url = urlInput.value.trim();
+        if (!url) return;
+
+        document.getElementById('input-section').classList.add('hidden');
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('results').classList.add('hidden');
+
+        const statuses = ['Checking SSL...', 'Testing performance...', 'Scanning security headers...', 'Analysing SEO...', 'Calculating score...'];
+        let i = 0;
+        const statusInterval = setInterval(() => {
+            if (i < statuses.length) {
+                document.getElementById('scan-status').textContent = statuses[i++];
+            }
+        }, 600);
+
+        try {
+            const resp = await fetch(`/api/audit?url=${encodeURIComponent(url)}`);
+            const data = await resp.json();
+            clearInterval(statusInterval);
+
+            if (data.error) {
+                alert('Error: ' + data.error);
+                resetAudit();
+                return;
+            }
+
+            lastResult = data;
+            showResults(data);
+        } catch (err) {
+            clearInterval(statusInterval);
+            alert('Audit failed: ' + err.message);
+            resetAudit();
+        }
+    }
+
+    function showResults(data) {
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.remove('hidden');
+
+        const gradeColors = { A: '#22c55e', B: '#84cc16', C: '#eab308', D: '#f97316', F: '#ef4444' };
+        const gc = document.getElementById('grade-circle');
+        gc.style.backgroundColor = gradeColors[data.grade] || '#6b7280';
+        gc.textContent = data.grade;
+        gc.style.color = 'white';
+
+        document.getElementById('score-text').textContent = `${data.score}/${data.maxScore} (${data.percentage}%)`;
+        document.getElementById('domain-text').textContent = data.domain;
+
+        const container = document.getElementById('sections-container');
+        container.innerHTML = '';
+
+        for (const [key, section] of Object.entries(data.sections)) {
+            let checksHTML = '';
+            section.checks.forEach((check, i) => {
+                const icon = check.pass ? '&#10004;' : '&#10008;';
+                const color = check.pass ? '#22c55e' : '#ef4444';
+                checksHTML += `
+                    <div class="check-enter flex items-start gap-3 py-3 border-b border-gray-800/50" style="animation-delay:${i*0.1}s">
+                        <span style="color:${color};font-size:16px;font-weight:bold;min-width:20px;">${icon}</span>
+                        <div>
+                            <div class="font-medium text-sm">${check.check}</div>
+                            <div class="text-gray-500 text-xs">${check.detail}</div>
+                        </div>
+                    </div>`;
+            });
+
+            container.innerHTML += `
+                <div class="bg-night-900 rounded-2xl p-6 border border-gray-800 mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="font-bold text-lg">${section.name}</h2>
+                        <span class="text-sm text-gray-500">${section.score}/${section.max}</span>
+                    </div>
+                    ${checksHTML}
+                </div>`;
+        }
+
+        // Recommendations
+        if (data.recommendations && data.recommendations.length > 0) {
+            const recsContainer = document.getElementById('recs-container');
+            recsContainer.classList.remove('hidden');
+            const recsList = document.getElementById('recs-list');
+            recsList.innerHTML = '';
+            data.recommendations.forEach(rec => {
+                const priorityColors = { Critical: 'bg-red-500', High: 'bg-orange-500', Medium: 'bg-yellow-500' };
+                recsList.innerHTML += `
+                    <div class="flex items-start gap-3 py-3 border-b border-gray-800/50">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded ${priorityColors[rec.priority] || 'bg-gray-500'} text-white">${rec.priority}</span>
+                        <div>
+                            <div class="font-medium text-sm">${rec.fix}</div>
+                            <a href="${rec.link}" target="_blank" rel="noopener" class="text-accent-400 text-xs hover:underline">${rec.tool} &rarr;</a>
+                        </div>
+                    </div>`;
+            });
+        }
+    }
+
+    function resetAudit() {
+        document.getElementById('input-section').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.add('hidden');
+        document.getElementById('url-input').value = '';
+        document.getElementById('url-input').focus();
+    }
+
+    function shareResult() {
+        if (lastResult) {
+            const text = `My website scored ${lastResult.grade} (${lastResult.percentage}%) on Nightwork Audit! Check yours free: https://nightwork-site.pages.dev/audit`;
+            navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+        }
+    }
+
+    // Auto-focus
+    document.getElementById('url-input').focus();
+    </script>
+</body>
+</html>
