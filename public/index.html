@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightwork Design - Custom Photo Collages & Digital Templates</title>
+    <meta name="description" content="Custom photo collages delivered in 24 hours. Premium spreadsheet templates. Made with precision, delivered at machine speed.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        night: { 50: '#f6f6f9', 100: '#ececf2', 200: '#d5d5e3', 300: '#b2b2cb', 400: '#8989ae', 500: '#6a6a94', 600: '#55557b', 700: '#464664', 800: '#3c3c54', 900: '#1a1a2e', 950: '#0d0d17' },
+                        accent: { 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .product-card { transition: all 0.2s ease; }
+        .badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    </style>
+</head>
+<body class="bg-night-950 text-white">
+
+    <!-- Hero -->
+    <header class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-night-900 via-night-950 to-black"></div>
+        <div class="relative max-w-5xl mx-auto px-6 py-20 text-center">
+            <div class="inline-block px-4 py-1.5 bg-accent-500/10 border border-accent-500/20 rounded-full text-accent-400 text-sm font-medium mb-6">
+                We build while the world sleeps
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-6">
+                Nightwork<span class="text-accent-400">Design</span>
+            </h1>
+            <p class="text-xl text-night-300 max-w-2xl mx-auto mb-4">
+                Custom photo collages delivered in 24 hours. Premium templates built with precision. Digital products made at machine speed.
+            </p>
+            <p class="text-night-400 text-sm">UK Mother's Day is 30 March - order your custom collage now</p>
+        </div>
+    </header>
+
+    <!-- Mother's Day Banner -->
+    <section class="bg-gradient-to-r from-pink-600/20 to-rose-600/20 border-y border-pink-500/20">
+        <div class="max-w-5xl mx-auto px-6 py-4 text-center">
+            <span class="badge inline-block bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full mr-2">MOTHER'S DAY</span>
+            <span class="text-pink-200">Custom photo collages for Mum, Nanny & Grandma - order by 28 March for guaranteed delivery</span>
+        </div>
+    </section>
+
+    <!-- Photo Collage Products -->
+    <section class="max-w-5xl mx-auto px-6 py-16">
+        <h2 class="text-3xl font-bold mb-2">Custom Photo Collages</h2>
+        <p class="text-night-400 mb-10">Send us your photos. We'll create something beautiful. Delivered within 24 hours as a print-ready digital file.</p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Scattered Polaroid -->
+            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
+                <div class="aspect-square bg-night-800 flex items-center justify-center text-night-500">
+                    <img src="" alt="Scattered Polaroid Collage" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<div class=\'p-8 text-center\'><div class=\'text-4xl mb-2\'>📸</div><div class=\'text-sm\'>Scattered Polaroid</div></div>'">
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg mb-1">Scattered Polaroid Collage</h3>
+                    <p class="text-night-400 text-sm mb-3">Your photos arranged as scattered polaroids with realistic shadows. Warm, nostalgic, beautiful.</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-2xl font-bold">£18.99</span>
+                            <span class="text-night-500 text-sm line-through ml-2">£26.99</span>
+                        </div>
+                        <a href="https://buy.stripe.com/dRm7sMcYE0yB6Oe6obgfu00" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Heart Shape -->
+            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
+                <div class="aspect-square bg-night-800 flex items-center justify-center text-night-500">
+                    <div class="p-8 text-center"><div class="text-4xl mb-2">💕</div><div class="text-sm">Heart Shape</div></div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg mb-1">Heart Photo Collage</h3>
+                    <p class="text-night-400 text-sm mb-3">Photos arranged in a heart shape. Perfect for weddings, anniversaries, and Mother's Day.</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-2xl font-bold">£19.99</span>
+                            <span class="text-night-500 text-sm line-through ml-2">£28.99</span>
+                        </div>
+                        <a href="https://buy.stripe.com/bJebJ2bUA4ORgoOaErgfu01" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mum Special -->
+            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-pink-500/30 ring-1 ring-pink-500/20">
+                <div class="bg-pink-500 text-white text-xs font-bold text-center py-1.5">MOTHER'S DAY SPECIAL</div>
+                <div class="aspect-square bg-night-800 flex items-center justify-center text-night-500">
+                    <div class="p-8 text-center"><div class="text-4xl mb-2">🌸</div><div class="text-sm">Reasons We Love Mum</div></div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg mb-1">Reasons We Love Mum</h3>
+                    <p class="text-night-400 text-sm mb-3">Custom collage with photos + your personal reasons why she's the best. The gift she'll treasure.</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-2xl font-bold">£19.99</span>
+                            <span class="text-night-500 text-sm line-through ml-2">£29.99</span>
+                        </div>
+                        <a href="https://buy.stripe.com/bJe8wQ6Ag0yB4G6aErgfu06" class="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
+                <div class="aspect-square bg-night-800 flex items-center justify-center">
+                    <div class="p-8 text-center"><div class="text-4xl mb-2">⬜</div><div class="text-sm text-night-500">Clean Grid</div></div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg mb-1">Grid Layout Collage</h3>
+                    <p class="text-night-400 text-sm mb-3">Clean, modern grid. 4, 9, or 16 photos. Minimal and elegant.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold">£14.99</span>
+                        <a href="https://buy.stripe.com/dRm00k9Ms9577Si4g3gfu02" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Film Strip -->
+            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
+                <div class="aspect-square bg-night-800 flex items-center justify-center">
+                    <div class="p-8 text-center"><div class="text-4xl mb-2">🎞️</div><div class="text-sm text-night-500">Film Strip</div></div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg mb-1">Vintage Film Strip</h3>
+                    <p class="text-night-400 text-sm mb-3">Authentic 35mm film strip with sprocket holes. Nostalgic, cinematic, unique.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold">£16.99</span>
+                        <a href="https://buy.stripe.com/dRm00kgaQ3KN7Sih2Pgfu03" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bundle -->
+            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-accent-500/30 ring-1 ring-accent-500/20">
+                <div class="bg-accent-500 text-white text-xs font-bold text-center py-1.5">BEST VALUE - SAVE £26</div>
+                <div class="aspect-square bg-night-800 flex items-center justify-center">
+                    <div class="p-8 text-center"><div class="text-4xl mb-2">✨</div><div class="text-sm text-night-500">All 5 Styles</div></div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-lg mb-1">5-Style Bundle</h3>
+                    <p class="text-night-400 text-sm mb-3">Send photos once, get all 5 collage styles. Grid, Scattered, Heart, Film Strip, Hero Gallery.</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-2xl font-bold">£49.99</span>
+                            <span class="text-night-500 text-sm line-through ml-2">£75.95</span>
+                        </div>
+                        <a href="https://buy.stripe.com/fZu8wQ3o44ORgoOaErgfu05" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="bg-night-900/50 border-y border-night-800">
+        <div class="max-w-5xl mx-auto px-6 py-16">
+            <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-accent-500 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="font-semibold text-lg mb-2">Place Your Order</h3>
+                    <p class="text-night-400 text-sm">Choose your style and complete payment. You'll receive order confirmation instantly.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="font-semibold text-lg mb-2">Send Your Photos</h3>
+                    <p class="text-night-400 text-sm">Email 6-20 photos to <a href="mailto:nightworkstudio@proton.me" class="text-accent-400 hover:underline">nightworkstudio@proton.me</a> with your order number.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="font-semibold text-lg mb-2">Receive Your Collage</h3>
+                    <p class="text-night-400 text-sm">Your print-ready digital file delivered to your email within 24 hours. 300 DPI, multiple sizes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spreadsheet Templates -->
+    <section class="max-w-5xl mx-auto px-6 py-16">
+        <h2 class="text-3xl font-bold mb-2">Premium Spreadsheet Templates</h2>
+        <p class="text-night-400 mb-10">Professional templates with built-in formulas, UK tax calculations, and beautiful formatting. Instant download.</p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">💒</div>
+                <h3 class="font-semibold mb-1">Wedding Budget Tracker</h3>
+                <p class="text-night-400 text-xs mb-3">36 categories, auto-calculations, deposit tracking</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£9.99</span>
+                    <a href="https://buy.stripe.com/3cI8wQ5wc5SV5KaeUHgfu07" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">📊</div>
+                <h3 class="font-semibold mb-1">Freelancer Finance</h3>
+                <p class="text-night-400 text-xs mb-3">UK tax calculator, NI, VAT, profit/loss</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£12.99</span>
+                    <a href="https://buy.stripe.com/8x2fZibUAepr6OecMzgfu08" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">🏠</div>
+                <h3 class="font-semibold mb-1">Property Investment</h3>
+                <p class="text-night-400 text-xs mb-3">3-property comparison, yields, 5-year projection</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£14.99</span>
+                    <a href="https://buy.stripe.com/6oU9AU2k0gxzegG9Angfu0a" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">💰</div>
+                <h3 class="font-semibold mb-1">Cash Flow Forecast</h3>
+                <p class="text-night-400 text-xs mb-3">12-month forecast, runway, break-even</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£12.99</span>
+                    <a href="https://buy.stripe.com/7sYbJ2aQw6WZfkK8wjgfu09" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">📱</div>
+                <h3 class="font-semibold mb-1">Social Media Calendar</h3>
+                <p class="text-night-400 text-xs mb-3">4-week planner, platform dropdowns, content bank</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£7.99</span>
+                    <a href="https://buy.stripe.com/28E7sMcYEdln8Wm13Rgfu0b" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">✅</div>
+                <h3 class="font-semibold mb-1">Habit Tracker</h3>
+                <p class="text-night-400 text-xs mb-3">31-day tracker, streaks, monthly scores</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£5.99</span>
+                    <a href="https://buy.stripe.com/28E9AUbUAa9b5Ka7sfgfu0d" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">📈</div>
+                <h3 class="font-semibold mb-1">Side Hustle Tracker</h3>
+                <p class="text-night-400 text-xs mb-3">5 streams, hourly rates, UK tax estimate</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£9.99</span>
+                    <a href="https://buy.stripe.com/00waEY2k00yB4G63bZgfu0c" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+
+            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
+                <div class="text-3xl mb-3">🥗</div>
+                <h3 class="font-semibold mb-1">Meal Planner</h3>
+                <p class="text-night-400 text-xs mb-3">Weekly plan, grocery list, recipe bank</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-xl font-bold">£5.99</span>
+                    <a href="https://buy.stripe.com/28EfZi8Ioa9b3C227Vgfu0e" class="text-accent-400 text-sm hover:underline">Buy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-night-800 bg-night-950">
+        <div class="max-w-5xl mx-auto px-6 py-10 text-center">
+            <p class="text-night-300 font-semibold mb-2">Nightwork Design</p>
+            <p class="text-night-500 text-sm mb-4">Custom photo collages & premium digital templates</p>
+            <p class="text-night-600 text-xs">
+                <a href="mailto:nightworkstudio@proton.me" class="hover:text-night-400 transition-colors">nightworkstudio@proton.me</a>
+            </p>
+            <p class="text-night-700 text-xs mt-4">Made with precision. Delivered at machine speed.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
