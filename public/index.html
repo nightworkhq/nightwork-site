@@ -3,30 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nightwork Design - Custom Photo Collages & Digital Templates</title>
-    <meta name="description" content="Custom photo collages delivered in 24 hours. Premium spreadsheet templates. Automated web audits. Made with precision, delivered at machine speed.">
-    <meta property="og:title" content="Nightwork Design - Digital Products & Services">
-    <meta property="og:description" content="Custom photo collages, premium spreadsheet templates, and automated web audits. Delivered at machine speed.">
+    <title>Free Website Audit - Check Your Score in 30 Seconds | Nightwork</title>
+    <meta name="description" content="Free instant website audit. Check your SSL, performance, security headers, and SEO score in 30 seconds. No signup required.">
+    <meta property="og:title" content="Free Website Audit - What's Your Score?">
+    <meta property="og:description" content="Check your website's SSL, performance, security, and SEO in 30 seconds. Free, instant, no signup.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nightwork-site.pages.dev">
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Store",
-        "name": "Nightwork Design",
-        "description": "Digital products and automated services. Custom photo collages, premium spreadsheet templates, and web audits.",
-        "url": "https://nightwork-site.pages.dev",
-        "email": "nightworkstudio@proton.me",
-        "priceRange": "£5.99 - £49.99"
-    }
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        night: { 50: '#f6f6f9', 100: '#ececf2', 200: '#d5d5e3', 300: '#b2b2cb', 400: '#8989ae', 500: '#6a6a94', 600: '#55557b', 700: '#464664', 800: '#3c3c54', 900: '#1a1a2e', 950: '#0d0d17' },
+                        night: { 900: '#1a1a2e', 950: '#0d0d17' },
                         accent: { 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb' }
                     }
                 }
@@ -34,307 +22,212 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .product-card { transition: all 0.2s ease; }
-        .badge { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .grade-circle { width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 64px; font-weight: 800; }
+        @keyframes scan { 0% { width: 0%; } 100% { width: 100%; } }
+        .scanning { animation: scan 3s ease-out; }
+        .check-enter { animation: fadeIn 0.3s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { to { opacity: 1; } }
     </style>
 </head>
-<body class="bg-night-950 text-white">
+<body class="bg-night-950 text-white min-h-screen">
 
-    <!-- Hero -->
-    <header class="relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-night-900 via-night-950 to-black"></div>
-        <div class="relative max-w-5xl mx-auto px-6 py-20 text-center">
-            <div class="inline-block px-4 py-1.5 bg-accent-500/10 border border-accent-500/20 rounded-full text-accent-400 text-sm font-medium mb-6">
-                We build while the world sleeps
-            </div>
-            <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-                Nightwork<span class="text-accent-400">Design</span>
+    <div class="max-w-3xl mx-auto px-6 py-12">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="text-sm text-accent-400 font-medium mb-4">NIGHTWORK</div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                How does your website <span class="text-accent-400">really</span> score?
             </h1>
-            <p class="text-xl text-night-300 max-w-2xl mx-auto mb-4">
-                Custom photo collages delivered in 24 hours. Premium templates built with precision. Digital products made at machine speed.
-            </p>
-            <p class="text-night-400 text-sm">Birthdays, weddings, anniversaries - any occasion, any number of photos</p>
+            <p class="text-gray-400 text-lg">Free audit. 30 seconds. No signup. No email required.</p>
         </div>
-    </header>
 
-    <!-- Promo Banner -->
-    <section class="bg-gradient-to-r from-accent-600/20 to-blue-600/20 border-y border-accent-500/20">
-        <div class="max-w-5xl mx-auto px-6 py-4 text-center">
-            <span class="badge inline-block bg-accent-500 text-white text-xs font-bold px-3 py-1 rounded-full mr-2">NEW</span>
-            <span class="text-blue-200">Custom photo collages delivered in 24 hours - birthdays, weddings, anniversaries, any occasion</span>
+        <!-- Input -->
+        <div id="input-section" class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <div class="flex gap-3">
+                <input type="text" id="url-input" placeholder="Enter your website URL (e.g. yoursite.com)"
+                    class="flex-1 bg-black/30 border border-gray-700 rounded-xl px-5 py-4 text-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500"
+                    onkeydown="if(event.key==='Enter')runAudit()">
+                <button onclick="runAudit()" id="audit-btn"
+                    class="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-colors whitespace-nowrap">
+                    Audit Now
+                </button>
+            </div>
         </div>
-    </section>
 
-    <!-- Photo Collage Products -->
-    <section class="max-w-5xl mx-auto px-6 py-16">
-        <h2 class="text-3xl font-bold mb-2">Custom Photo Collages</h2>
-        <p class="text-night-400 mb-10">Send us your photos. We'll create something beautiful. Delivered within 24 hours as a print-ready digital file.</p>
+        <!-- Loading -->
+        <div id="loading" class="hidden bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <p class="text-gray-300 mb-4 font-medium">Scanning your website...</p>
+            <div class="w-full bg-gray-800 rounded-full h-2 mb-3">
+                <div class="bg-accent-500 h-2 rounded-full scanning"></div>
+            </div>
+            <div id="scan-status" class="text-gray-500 text-sm">Checking SSL...</div>
+        </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Scattered Polaroid -->
-            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
-                <div class="aspect-square bg-night-800 flex items-center justify-center text-night-500">
-                    <img src="/img-scattered.jpg" alt="Scattered Polaroid Collage" class="w-full h-full object-cover">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg mb-1">Scattered Polaroid Collage</h3>
-                    <p class="text-night-400 text-sm mb-3">Your photos arranged as scattered polaroids with realistic shadows. Warm, nostalgic, beautiful.</p>
-                    <div class="flex items-center justify-between">
+        <!-- Results -->
+        <div id="results" class="hidden">
+            <!-- Score -->
+            <div class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-6 text-center">
+                <div id="grade-circle" class="grade-circle mx-auto mb-4"></div>
+                <div id="score-text" class="text-2xl font-bold mb-1"></div>
+                <div id="domain-text" class="text-gray-500"></div>
+            </div>
+
+            <!-- Sections -->
+            <div id="sections-container"></div>
+
+            <!-- Recommendations -->
+            <div id="recs-container" class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-6 hidden">
+                <h2 class="text-xl font-bold mb-4">Recommended Fixes</h2>
+                <div id="recs-list"></div>
+            </div>
+
+            <!-- CTA -->
+            <div class="bg-gradient-to-r from-accent-600/20 to-blue-600/20 rounded-2xl p-8 border border-accent-500/30 text-center mb-6">
+                <h2 class="text-2xl font-bold mb-2">Want the full report?</h2>
+                <p class="text-gray-400 mb-4">Get a detailed PDF with AI visibility check, competitor comparison, and step-by-step implementation guide.</p>
+                <a href="https://buy.stripe.com/00w5kE7Ek2GJ6OedQDgfu0f" class="inline-block bg-accent-500 hover:bg-accent-600 text-white px-8 py-3 rounded-xl font-semibold transition-colors">Full Report - £47</a>
+            </div>
+
+            <!-- Share -->
+            <div class="text-center mb-8">
+                <p class="text-gray-500 text-sm mb-2">Share your score</p>
+                <button onclick="shareResult()" class="text-accent-400 hover:text-accent-300 text-sm underline">Copy link to results</button>
+            </div>
+
+            <!-- Audit another -->
+            <div class="text-center">
+                <button onclick="resetAudit()" class="text-gray-500 hover:text-gray-300 text-sm">Audit another site &rarr;</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-16 text-gray-600 text-xs">
+            <p>Nightwork Audit - Free automated website analysis</p>
+            <p class="mt-1"><a href="/" class="hover:text-gray-400">nightwork-site.pages.dev</a></p>
+        </div>
+    </div>
+
+    <script>
+    let lastResult = null;
+
+    async function runAudit() {
+        const urlInput = document.getElementById('url-input');
+        let url = urlInput.value.trim();
+        if (!url) return;
+
+        document.getElementById('input-section').classList.add('hidden');
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('results').classList.add('hidden');
+
+        const statuses = ['Checking SSL...', 'Testing performance...', 'Scanning security headers...', 'Analysing SEO...', 'Calculating score...'];
+        let i = 0;
+        const statusInterval = setInterval(() => {
+            if (i < statuses.length) {
+                document.getElementById('scan-status').textContent = statuses[i++];
+            }
+        }, 600);
+
+        try {
+            const resp = await fetch(`/api/audit?url=${encodeURIComponent(url)}`);
+            const data = await resp.json();
+            clearInterval(statusInterval);
+
+            if (data.error) {
+                alert('Error: ' + data.error);
+                resetAudit();
+                return;
+            }
+
+            lastResult = data;
+            showResults(data);
+        } catch (err) {
+            clearInterval(statusInterval);
+            alert('Audit failed: ' + err.message);
+            resetAudit();
+        }
+    }
+
+    function showResults(data) {
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.remove('hidden');
+
+        const gradeColors = { A: '#22c55e', B: '#84cc16', C: '#eab308', D: '#f97316', F: '#ef4444' };
+        const gc = document.getElementById('grade-circle');
+        gc.style.backgroundColor = gradeColors[data.grade] || '#6b7280';
+        gc.textContent = data.grade;
+        gc.style.color = 'white';
+
+        document.getElementById('score-text').textContent = `${data.score}/${data.maxScore} (${data.percentage}%)`;
+        document.getElementById('domain-text').textContent = data.domain;
+
+        const container = document.getElementById('sections-container');
+        container.innerHTML = '';
+
+        for (const [key, section] of Object.entries(data.sections)) {
+            let checksHTML = '';
+            section.checks.forEach((check, i) => {
+                const icon = check.pass ? '&#10004;' : '&#10008;';
+                const color = check.pass ? '#22c55e' : '#ef4444';
+                checksHTML += `
+                    <div class="check-enter flex items-start gap-3 py-3 border-b border-gray-800/50" style="animation-delay:${i*0.1}s">
+                        <span style="color:${color};font-size:16px;font-weight:bold;min-width:20px;">${icon}</span>
                         <div>
-                            <span class="text-2xl font-bold">£18.99</span>
-                            <span class="text-night-500 text-sm line-through ml-2">£26.99</span>
+                            <div class="font-medium text-sm">${check.check}</div>
+                            <div class="text-gray-500 text-xs">${check.detail}</div>
                         </div>
-                        <a href="https://buy.stripe.com/dRm7sMcYE0yB6Oe6obgfu00" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
-                    </div>
-                </div>
-            </div>
+                    </div>`;
+            });
 
-            <!-- Heart Shape -->
-            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
-                <div class="aspect-square bg-night-800 flex items-center justify-center text-night-500">
-                    <img src="/img-heart.jpg" alt="Heart Photo Collage" class="w-full h-full object-cover">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg mb-1">Heart Photo Collage</h3>
-                    <p class="text-night-400 text-sm mb-3">Photos arranged in a heart shape. Perfect for weddings, anniversaries, and Mother's Day.</p>
-                    <div class="flex items-center justify-between">
+            container.innerHTML += `
+                <div class="bg-night-900 rounded-2xl p-6 border border-gray-800 mb-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="font-bold text-lg">${section.name}</h2>
+                        <span class="text-sm text-gray-500">${section.score}/${section.max}</span>
+                    </div>
+                    ${checksHTML}
+                </div>`;
+        }
+
+        // Recommendations
+        if (data.recommendations && data.recommendations.length > 0) {
+            const recsContainer = document.getElementById('recs-container');
+            recsContainer.classList.remove('hidden');
+            const recsList = document.getElementById('recs-list');
+            recsList.innerHTML = '';
+            data.recommendations.forEach(rec => {
+                const priorityColors = { Critical: 'bg-red-500', High: 'bg-orange-500', Medium: 'bg-yellow-500' };
+                recsList.innerHTML += `
+                    <div class="flex items-start gap-3 py-3 border-b border-gray-800/50">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded ${priorityColors[rec.priority] || 'bg-gray-500'} text-white">${rec.priority}</span>
                         <div>
-                            <span class="text-2xl font-bold">£19.99</span>
-                            <span class="text-night-500 text-sm line-through ml-2">£28.99</span>
+                            <div class="font-medium text-sm">${rec.fix}</div>
+                            <a href="${rec.link}" target="_blank" rel="noopener" class="text-accent-400 text-xs hover:underline">${rec.tool} &rarr;</a>
                         </div>
-                        <a href="https://buy.stripe.com/bJebJ2bUA4ORgoOaErgfu01" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
-                    </div>
-                </div>
-            </div>
+                    </div>`;
+            });
+        }
+    }
 
-            <!-- Reasons We Love You -->
-            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-accent-500/30 ring-1 ring-accent-500/20">
-                <div class="bg-accent-500 text-white text-xs font-bold text-center py-1.5">PERSONALISED</div>
-                <div class="aspect-square bg-night-800 flex items-center justify-center text-night-500">
-                    <div class="p-8 text-center"><div class="text-4xl mb-2">🎂</div><div class="text-sm">Reasons We Love You</div></div>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg mb-1">Reasons We Love You</h3>
-                    <p class="text-night-400 text-sm mb-3">Photos + personal reasons on a custom collage. Perfect for birthdays, retirements, anniversaries.</p>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-2xl font-bold">£19.99</span>
-                            <span class="text-night-500 text-sm line-through ml-2">£29.99</span>
-                        </div>
-                        <a href="https://buy.stripe.com/bJe8wQ6Ag0yB4G6aErgfu06" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
-                    </div>
-                </div>
-            </div>
+    function resetAudit() {
+        document.getElementById('input-section').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.add('hidden');
+        document.getElementById('url-input').value = '';
+        document.getElementById('url-input').focus();
+    }
 
-            <!-- Grid -->
-            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
-                <div class="aspect-square bg-night-800 flex items-center justify-center">
-                    <img src="/img-grid.jpg" alt="Grid Layout Collage" class="w-full h-full object-cover">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg mb-1">Grid Layout Collage</h3>
-                    <p class="text-night-400 text-sm mb-3">Clean, modern grid. 4, 9, or 16 photos. Minimal and elegant.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold">£14.99</span>
-                        <a href="https://buy.stripe.com/dRm00k9Ms9577Si4g3gfu02" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
-                    </div>
-                </div>
-            </div>
+    function shareResult() {
+        if (lastResult) {
+            const text = `My website scored ${lastResult.grade} (${lastResult.percentage}%) on Nightwork Audit! Check yours free: https://nightwork-site.pages.dev/audit`;
+            navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+        }
+    }
 
-            <!-- Film Strip -->
-            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-night-700/50">
-                <div class="aspect-square bg-night-800 flex items-center justify-center">
-                    <img src="/img-film.jpg" alt="Film Strip Collage" class="w-full h-full object-cover">
-                </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg mb-1">Vintage Film Strip</h3>
-                    <p class="text-night-400 text-sm mb-3">Authentic 35mm film strip with sprocket holes. Nostalgic, cinematic, unique.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold">£16.99</span>
-                        <a href="https://buy.stripe.com/dRm00kgaQ3KN7Sih2Pgfu03" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bundle -->
-            <div class="product-card bg-night-900 rounded-xl overflow-hidden border border-accent-500/30 ring-1 ring-accent-500/20">
-                <div class="bg-accent-500 text-white text-xs font-bold text-center py-1.5">BEST VALUE - SAVE £26</div>
-                <div class="aspect-square bg-night-800 flex items-center justify-center">
-                    <div class="p-8 text-center"><div class="text-4xl mb-2">✨</div><div class="text-sm text-night-500">All 5 Styles</div></div>
-                </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-lg mb-1">5-Style Bundle</h3>
-                    <p class="text-night-400 text-sm mb-3">Send photos once, get all 5 collage styles. Grid, Scattered, Heart, Film Strip, Hero Gallery.</p>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-2xl font-bold">£49.99</span>
-                            <span class="text-night-500 text-sm line-through ml-2">£75.95</span>
-                        </div>
-                        <a href="https://buy.stripe.com/fZu8wQ3o44ORgoOaErgfu05" class="bg-accent-500 hover:bg-accent-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors">Order Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Web Audit Service -->
-    <section class="bg-gradient-to-b from-night-950 to-night-900 border-y border-accent-500/20">
-        <div class="max-w-5xl mx-auto px-6 py-16">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <div class="inline-block px-3 py-1 bg-accent-500/10 border border-accent-500/20 rounded-full text-accent-400 text-xs font-medium mb-4">NIGHTWORK AUDIT</div>
-                    <h2 class="text-3xl font-bold mb-4">How does your website <span class="text-accent-400">really</span> perform?</h2>
-                    <p class="text-night-300 mb-4">Our automated audit crawls your entire site and checks SSL security, page speed, mobile-readiness, SEO, security headers, and structured data. You get a branded PDF report with your score, grade, and specific recommendations.</p>
-                    <p class="text-night-400 text-sm mb-6">Delivered within 1 hour. No calls. No consultations. Just data.</p>
-                    <div class="flex items-center gap-4">
-                        <a href="https://buy.stripe.com/00w5kE7Ek2GJ6OedQDgfu0f" class="bg-accent-500 hover:bg-accent-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">Get Your Audit - £47</a>
-                    </div>
-                </div>
-                <div class="bg-night-800 rounded-xl p-6 border border-night-700/50">
-                    <div class="text-center mb-4">
-                        <div class="inline-block w-20 h-20 rounded-full bg-yellow-500 text-3xl font-bold text-white leading-[80px]">C</div>
-                        <p class="text-night-300 mt-2">Example: 65/100</p>
-                    </div>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex justify-between"><span class="text-night-400">SSL & Security</span><span class="text-green-400">20/20</span></div>
-                        <div class="flex justify-between"><span class="text-night-400">Performance</span><span class="text-red-400">5/20</span></div>
-                        <div class="flex justify-between"><span class="text-night-400">Security Headers</span><span class="text-green-400">20/20</span></div>
-                        <div class="flex justify-between"><span class="text-night-400">SEO & Discoverability</span><span class="text-yellow-400">20/40</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="bg-night-900/50 border-y border-night-800">
-        <div class="max-w-5xl mx-auto px-6 py-16">
-            <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div class="w-14 h-14 bg-accent-500 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
-                    <h3 class="font-semibold text-lg mb-2">Place Your Order</h3>
-                    <p class="text-night-400 text-sm">Choose your style and complete payment. You'll receive order confirmation instantly.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
-                    <h3 class="font-semibold text-lg mb-2">Send Your Photos</h3>
-                    <p class="text-night-400 text-sm">Email 6-20 photos to <a href="mailto:nightworkstudio@proton.me" class="text-accent-400 hover:underline">nightworkstudio@proton.me</a> with your order number.</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-14 h-14 bg-orange-500 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
-                    <h3 class="font-semibold text-lg mb-2">Receive Your Collage</h3>
-                    <p class="text-night-400 text-sm">Your print-ready digital file delivered to your email within 24 hours. 300 DPI, multiple sizes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Spreadsheet Templates -->
-    <section class="max-w-5xl mx-auto px-6 py-16">
-        <h2 class="text-3xl font-bold mb-2">Premium Spreadsheet Templates</h2>
-        <p class="text-night-400 mb-10">Professional templates with built-in formulas, UK tax calculations, and beautiful formatting. Instant download.</p>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">💒</div>
-                <h3 class="font-semibold mb-1">Wedding Budget Tracker</h3>
-                <p class="text-night-400 text-xs mb-3">36 categories, auto-calculations, deposit tracking</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£9.99</span>
-                    <a href="https://buy.stripe.com/3cI8wQ5wc5SV5KaeUHgfu07" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">📊</div>
-                <h3 class="font-semibold mb-1">Freelancer Finance</h3>
-                <p class="text-night-400 text-xs mb-3">UK tax calculator, NI, VAT, profit/loss</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£12.99</span>
-                    <a href="https://buy.stripe.com/8x2fZibUAepr6OecMzgfu08" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">🏠</div>
-                <h3 class="font-semibold mb-1">Property Investment</h3>
-                <p class="text-night-400 text-xs mb-3">3-property comparison, yields, 5-year projection</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£14.99</span>
-                    <a href="https://buy.stripe.com/6oU9AU2k0gxzegG9Angfu0a" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">💰</div>
-                <h3 class="font-semibold mb-1">Cash Flow Forecast</h3>
-                <p class="text-night-400 text-xs mb-3">12-month forecast, runway, break-even</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£12.99</span>
-                    <a href="https://buy.stripe.com/7sYbJ2aQw6WZfkK8wjgfu09" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">📱</div>
-                <h3 class="font-semibold mb-1">Social Media Calendar</h3>
-                <p class="text-night-400 text-xs mb-3">4-week planner, platform dropdowns, content bank</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£7.99</span>
-                    <a href="https://buy.stripe.com/28E7sMcYEdln8Wm13Rgfu0b" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">✅</div>
-                <h3 class="font-semibold mb-1">Habit Tracker</h3>
-                <p class="text-night-400 text-xs mb-3">31-day tracker, streaks, monthly scores</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£5.99</span>
-                    <a href="https://buy.stripe.com/28E9AUbUAa9b5Ka7sfgfu0d" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">📈</div>
-                <h3 class="font-semibold mb-1">Side Hustle Tracker</h3>
-                <p class="text-night-400 text-xs mb-3">5 streams, hourly rates, UK tax estimate</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£9.99</span>
-                    <a href="https://buy.stripe.com/00waEY2k00yB4G63bZgfu0c" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-
-            <div class="product-card bg-night-900 rounded-xl p-5 border border-night-700/50">
-                <div class="text-3xl mb-3">🥗</div>
-                <h3 class="font-semibold mb-1">Meal Planner</h3>
-                <p class="text-night-400 text-xs mb-3">Weekly plan, grocery list, recipe bank</p>
-                <div class="flex items-center justify-between">
-                    <span class="text-xl font-bold">£5.99</span>
-                    <a href="https://buy.stripe.com/28EfZi8Ioa9b3C227Vgfu0e" class="text-accent-400 text-sm hover:underline">Buy</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-night-800 bg-night-950">
-        <div class="max-w-5xl mx-auto px-6 py-10 text-center">
-            <p class="text-night-300 font-semibold mb-2">Nightwork Design</p>
-            <p class="text-night-500 text-sm mb-4">Custom photo collages & premium digital templates</p>
-            <p class="text-night-600 text-xs">
-                <a href="mailto:nightworkstudio@proton.me" class="hover:text-night-400 transition-colors">nightworkstudio@proton.me</a>
-            </p>
-            <p class="text-night-700 text-xs mt-4">Made with precision. Delivered at machine speed.</p>
-        </div>
-    </footer>
-
+    // Auto-focus
+    document.getElementById('url-input').focus();
+    </script>
 </body>
 </html>
