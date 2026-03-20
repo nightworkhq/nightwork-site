@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Tech Does This Website Use? Free Stack Checker | Nightwork</title>
+    <meta name="description" content="Discover what technology stack any website uses. Detect CMS, frameworks, hosting, CDN, and more. Free instant check, no signup.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{colors:{night:{900:'#1a1a2e',950:'#0d0d17'},accent:{400:'#60a5fa',500:'#3b82f6'}}}}}</script>
+    <style>body{font-family:'Inter',-apple-system,sans-serif;}@keyframes scan{0%{width:0%}100%{width:100%}}.scanning{animation:scan 2s ease-out;}</style>
+</head>
+<body class="bg-night-950 text-white min-h-screen">
+    <div class="max-w-3xl mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <a href="/" class="text-sm text-gray-500 hover:text-gray-300 mb-4 inline-block">&larr; More tools</a>
+            <h1 class="text-4xl font-bold mb-4">What's this site <span class="text-accent-400">built with</span>?</h1>
+            <p class="text-gray-400 text-lg">Detect the technology stack of any website. Free.</p>
+        </div>
+
+        <div id="input-section" class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <div class="flex gap-3">
+                <input type="text" id="url-input" placeholder="Enter URL (e.g. stripe.com)"
+                    class="flex-1 bg-black/30 border border-gray-700 rounded-xl px-5 py-4 text-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-500"
+                    onkeydown="if(event.key==='Enter')detect()">
+                <button onclick="detect()" class="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 rounded-xl font-semibold text-lg whitespace-nowrap">Detect</button>
+            </div>
+        </div>
+
+        <div id="loading" class="hidden bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <p class="text-gray-300 mb-4">Analysing technology stack...</p>
+            <div class="w-full bg-gray-800 rounded-full h-2"><div class="bg-accent-500 h-2 rounded-full scanning"></div></div>
+        </div>
+
+        <div id="results" class="hidden"></div>
+
+        <div class="text-center mt-8 text-gray-700 text-xs">
+            <p><a href="/" class="hover:text-gray-400">Full audit</a> | <a href="/headers.html" class="hover:text-gray-400">Security headers</a> | <a href="/ssl.html" class="hover:text-gray-400">SSL check</a> | <a href="/stack.html" class="hover:text-gray-400">Tech stack</a></p>
+        </div>
+    </div>
+
+    <script>
+    async function detect() {
+        const url = document.getElementById('url-input').value.trim();
+        if (!url) return;
+        document.getElementById('input-section').classList.add('hidden');
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('results').classList.add('hidden');
+
+        try {
+            const resp = await fetch(`/api/audit?url=${encodeURIComponent(url)}`);
+            const data = await resp.json();
+            if (data.error) throw new Error(data.error);
+
+            // Detect tech from headers and HTML
+            const techs = detectTech(data);
+            showResults(data.domain, techs);
+        } catch(e) {
+            alert('Error: ' + e.message);
+            reset();
+        }
+    }
+
+    function detectTech(data) {
+        const techs = [];
+        const sections = data.sections || {};
+
+        // SSL/Hosting indicators
+        const ssl = sections.ssl || {};
+        for (const check of (ssl.checks || [])) {
+            if (check.check === 'HTTPS Connection' && check.pass) {
+                techs.push({cat: 'Security', name: 'HTTPS/TLS', icon: '🔒', detail: 'Encrypted connection'});
+            }
+        }
+
+        // Performance indicators
+        const perf = sections.performance || {};
+        for (const check of (perf.checks || [])) {
+            if (check.check === 'Compression' && check.pass) {
+                const enc = check.detail || '';
+                if (enc.includes('br')) techs.push({cat: 'Performance', name: 'Brotli Compression', icon: '⚡', detail: 'Advanced compression'});
+                else if (enc.includes('gzip')) techs.push({cat: 'Performance', name: 'Gzip Compression', icon: '⚡', detail: 'Standard compression'});
+            }
+            if (check.check === 'Cache Headers' && check.pass) {
+                techs.push({cat: 'Performance', name: 'Browser Caching', icon: '💾', detail: 'Cache-Control configured'});
+            }
+        }
+
+        // Security headers as tech signals
+        const headers = sections.headers || {};
+        for (const check of (headers.checks || [])) {
+            if (check.pass) {
+                techs.push({cat: 'Security', name: check.check, icon: '🛡️', detail: 'Configured'});
+            }
+        }
+
+        // SEO tech signals
+        const seo = sections.seo || {};
+        for (const check of (seo.checks || [])) {
+            if (check.check === 'Structured Data (JSON-LD)' && check.pass) {
+                techs.push({cat: 'SEO', name: 'JSON-LD Schema', icon: '📊', detail: 'Structured data present'});
+            }
+            if (check.check === 'Open Graph Tags' && check.pass) {
+                techs.push({cat: 'SEO', name: 'Open Graph', icon: '📱', detail: 'Social sharing optimised'});
+            }
+            if (check.check === 'Mobile Viewport' && check.pass) {
+                techs.push({cat: 'Design', name: 'Responsive Design', icon: '📐', detail: 'Mobile-friendly viewport'});
+            }
+        }
+
+        // Grade-based hosting guess
+        if (data.percentage >= 80) {
+            techs.push({cat: 'Infrastructure', name: 'Modern Stack', icon: '🏗️', detail: 'Well-configured infrastructure'});
+        }
+
+        return techs;
+    }
+
+    function showResults(domain, techs) {
+        document.getElementById('loading').classList.add('hidden');
+        const results = document.getElementById('results');
+        results.classList.remove('hidden');
+
+        const categories = {};
+        techs.forEach(t => {
+            if (!categories[t.cat]) categories[t.cat] = [];
+            categories[t.cat].push(t);
+        });
+
+        let sectionsHtml = '';
+        for (const [cat, items] of Object.entries(categories)) {
+            const itemsHtml = items.map(t =>
+                `<div class="flex items-center gap-3 py-2"><span class="text-xl">${t.icon}</span><div><div class="font-medium text-sm">${t.name}</div><div class="text-gray-500 text-xs">${t.detail}</div></div></div>`
+            ).join('');
+            sectionsHtml += `<div class="mb-4"><h3 class="text-xs uppercase text-gray-500 font-bold mb-2">${cat}</h3>${itemsHtml}</div>`;
+        }
+
+        results.innerHTML = `
+            <div class="bg-night-900 rounded-2xl p-6 border border-gray-800 mb-6">
+                <h2 class="font-bold text-lg mb-1">${domain}</h2>
+                <p class="text-gray-500 text-sm mb-4">${techs.length} technologies detected</p>
+                ${sectionsHtml}
+            </div>
+            <div class="bg-gradient-to-r from-accent-600/20 to-blue-600/20 rounded-2xl p-6 border border-accent-500/30 text-center mb-6">
+                <p class="font-bold mb-2">Want the full picture?</p>
+                <p class="text-gray-400 text-sm mb-3">Our complete audit scores performance, SEO, security, and more.</p>
+                <a href="/" class="inline-block bg-accent-500 text-white px-6 py-2 rounded-lg font-medium text-sm">Full Free Audit &rarr;</a>
+            </div>
+            <div class="text-center"><button onclick="reset()" class="text-gray-500 text-sm">Check another &rarr;</button></div>`;
+    }
+
+    function reset() {
+        document.getElementById('input-section').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.add('hidden');
+        document.getElementById('url-input').value='';
+        document.getElementById('url-input').focus();
+    }
+    document.getElementById('url-input').focus();
+    </script>
+</body>
+</html>
