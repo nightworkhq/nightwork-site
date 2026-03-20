@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Security Headers Check - Test Your Website | Nightwork</title>
+    <meta name="description" content="Check your website's security headers instantly. Free tool tests HSTS, CSP, X-Frame-Options, X-Content-Type-Options, and more. No signup required.">
+    <meta property="og:title" content="Free Security Headers Checker">
+    <meta property="og:description" content="Test your website's security headers in seconds. Free, instant, no signup.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{colors:{night:{900:'#1a1a2e',950:'#0d0d17'},accent:{400:'#60a5fa',500:'#3b82f6'}}}}}</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body{font-family:'Inter',sans-serif;}
+        @keyframes scan{0%{width:0%}100%{width:100%}}
+        .scanning{animation:scan 2s ease-out;}
+    </style>
+</head>
+<body class="bg-night-950 text-white min-h-screen">
+    <div class="max-w-3xl mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <a href="/" class="text-sm text-gray-500 hover:text-gray-300 mb-4 inline-block">&larr; More tools</a>
+            <h1 class="text-4xl font-bold mb-4">Security Headers <span class="text-accent-400">Checker</span></h1>
+            <p class="text-gray-400 text-lg">Test your website's HTTP security headers instantly. Free.</p>
+        </div>
+
+        <div id="input-section" class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <div class="flex gap-3">
+                <input type="text" id="url-input" placeholder="Enter URL (e.g. yoursite.com)"
+                    class="flex-1 bg-black/30 border border-gray-700 rounded-xl px-5 py-4 text-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-500"
+                    onkeydown="if(event.key==='Enter')checkHeaders()">
+                <button onclick="checkHeaders()" class="bg-accent-500 hover:bg-accent-600 text-white px-8 py-4 rounded-xl font-semibold text-lg whitespace-nowrap">Check</button>
+            </div>
+        </div>
+
+        <div id="loading" class="hidden bg-night-900 rounded-2xl p-8 border border-gray-800 mb-8">
+            <p class="text-gray-300 mb-4">Checking security headers...</p>
+            <div class="w-full bg-gray-800 rounded-full h-2"><div class="bg-accent-500 h-2 rounded-full scanning"></div></div>
+        </div>
+
+        <div id="results" class="hidden"></div>
+
+        <div class="text-center mt-8">
+            <p class="text-gray-600 text-xs">Nightwork Security Tools</p>
+            <p class="text-gray-700 text-xs mt-1"><a href="/" class="hover:text-gray-400">Full website audit</a> | <a href="/headers.html" class="hover:text-gray-400">Security headers</a></p>
+        </div>
+    </div>
+
+    <script>
+    async function checkHeaders() {
+        const url = document.getElementById('url-input').value.trim();
+        if (!url) return;
+
+        document.getElementById('input-section').classList.add('hidden');
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('results').classList.add('hidden');
+
+        try {
+            const resp = await fetch(`/api/audit?url=${encodeURIComponent(url)}`);
+            const data = await resp.json();
+            if (data.error) throw new Error(data.error);
+            showResults(data);
+        } catch(e) {
+            alert('Error: ' + e.message);
+            reset();
+        }
+    }
+
+    function showResults(data) {
+        document.getElementById('loading').classList.add('hidden');
+        const results = document.getElementById('results');
+        results.classList.remove('hidden');
+
+        const headers = data.sections?.headers || {checks:[], score:0, max:20};
+        const ssl = data.sections?.ssl || {checks:[], score:0, max:20};
+        const allChecks = [...ssl.checks, ...headers.checks];
+        const passed = allChecks.filter(c => c.pass).length;
+        const total = allChecks.length;
+        const pct = total > 0 ? Math.round(passed/total*100) : 0;
+
+        let grade, color;
+        if (pct >= 85) { grade='A'; color='#22c55e'; }
+        else if (pct >= 70) { grade='B'; color='#84cc16'; }
+        else if (pct >= 50) { grade='C'; color='#eab308'; }
+        else if (pct >= 25) { grade='D'; color='#f97316'; }
+        else { grade='F'; color='#ef4444'; }
+
+        let checksHtml = allChecks.map(c => {
+            const icon = c.pass ? '&#10004;' : '&#10008;';
+            const col = c.pass ? '#22c55e' : '#ef4444';
+            return `<div class="flex items-start gap-3 py-3 border-b border-gray-800/50">
+                <span style="color:${col};font-size:16px;font-weight:bold;min-width:20px;">${icon}</span>
+                <div><div class="font-medium text-sm">${c.check}</div><div class="text-gray-500 text-xs">${c.detail}</div></div>
+            </div>`;
+        }).join('');
+
+        results.innerHTML = `
+            <div class="bg-night-900 rounded-2xl p-8 border border-gray-800 mb-6 text-center">
+                <div style="width:100px;height:100px;border-radius:50%;background:${color};display:inline-flex;align-items:center;justify-content:center;font-size:48px;font-weight:800;color:white;">${grade}</div>
+                <p class="text-xl font-bold mt-3">${passed}/${total} headers present</p>
+                <p class="text-gray-500">${data.domain}</p>
+            </div>
+            <div class="bg-night-900 rounded-2xl p-6 border border-gray-800 mb-6">${checksHtml}</div>
+            <div class="bg-gradient-to-r from-accent-600/20 to-blue-600/20 rounded-2xl p-6 border border-accent-500/30 text-center mb-6">
+                <p class="font-bold mb-2">Want the full picture?</p>
+                <p class="text-gray-400 text-sm mb-3">Our complete audit also checks performance, SEO, mobile-readiness, and AI visibility.</p>
+                <a href="/" class="inline-block bg-accent-500 text-white px-6 py-2 rounded-lg font-medium text-sm">Full Free Audit &rarr;</a>
+            </div>
+            <div class="text-center"><button onclick="reset()" class="text-gray-500 text-sm hover:text-gray-300">Check another site &rarr;</button></div>`;
+    }
+
+    function reset() {
+        document.getElementById('input-section').classList.remove('hidden');
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('results').classList.add('hidden');
+        document.getElementById('url-input').value='';
+        document.getElementById('url-input').focus();
+    }
+
+    document.getElementById('url-input').focus();
+    </script>
+</body>
+</html>
