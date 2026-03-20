@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nightwork-site.pages.dev/sitemap.xml
